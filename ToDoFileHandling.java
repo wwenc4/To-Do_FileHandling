@@ -3,7 +3,7 @@ import java.time.*;
 import java.time.format.*;
 import java.util.*;
 
-public class ToDoFileHandling {
+public class TODOFileHandling {
     private static final String TODO_DIR = "to-do lists";
     private static final Scanner sc = new Scanner(System.in);
 
