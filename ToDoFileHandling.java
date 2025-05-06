@@ -8,7 +8,7 @@ public class ToDoFileHandling {
     private static final Scanner sc = new Scanner(System.in);
 
     private static void createToDoList() {                                                  // creating a list
-        BufferedWriter pen = null;
+    BufferedWriter pen = null;                                                              // created on initial                
         try {
             System.out.print("Enter the Name of the To-Do List: ");
             String listName = sc.nextLine();
@@ -54,7 +54,7 @@ public class ToDoFileHandling {
         System.out.print("Enter the name of the file to read.");
         System.out.print("For ease of use, show all to do lists first for a list, then enter the file name.");
         String readfileName = sc.nextLine();                                                // reading a list
-                                                                                            
+                                                                                            // created on beta 2
         System.out.println("\nNow reading list " + readfileName + ":");
         
         if (!fileName.toLowerCase().endsWith(".txt")) {
@@ -76,7 +76,7 @@ public class ToDoFileHandling {
         }
     }
     private static void viewList(){                                                         // viewing list of todos
-        File libr = new File(TODO_DIR);
+        File libr = new File(TODO_DIR);                                                     // created on beta 2
         File[] entries = libr.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
         if (entries == null || entries.length == 0) {
             System.out.println("No To-Do Lists found. Please create one, they they will shown here.");
@@ -88,8 +88,8 @@ public class ToDoFileHandling {
         }
     }
     public static void main(String[] args) {
-        File todoDir = new File(TODO_DIR);                                                  //this one creates a new directory if it doesn't exist.
-        if (!todoDir.exists()) {
+        File todoDir = new File(TODO_DIR);                                                  // this one creates a new directory if it doesn't exist.
+        if (!todoDir.exists()) {                                                            // created on initial
             todoDir.mkdir();
         }
         while (true) {
@@ -99,27 +99,27 @@ public class ToDoFileHandling {
             sc.nextLine();
     
             switch (opt) {
-                case 1:                                                                     //creation of a list
+                case 1:                                                                     // creation of a list
                     createToDoList();
                     break;
 
-                case 2:                                                                     //reading a list
+                case 2:                                                                     // reading a list
                     readToDoList(TODO_DIR);
                     break;
 
-                case 3:                                                                     //viewing a list
+                case 3:                                                                     // viewing a list
                     viewList();
                     break;
                 
-                case 4:                                                                     //modifying a list
+                case 4:                                                                     // modifying a list
                     //-- modifyList
                     break;
 
-                case 5:                                                                     //deleting a list
+                case 5:                                                                     // deleting a list
                     //-- deleteList
                     break;
 
-                case 6:                                                                     //exiting the program
+                case 6:                                                                     // exiting the program
                     System.out.println("Exiting...");
                     sc.close();
                     return;
