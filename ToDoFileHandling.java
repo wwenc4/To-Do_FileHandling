@@ -51,8 +51,20 @@ public class ToDoFileHandling {
     }
 
     private static void readToDoList(String fileName) {  
-        System.out.print("Enter the name of the file to read.");
-        System.out.print("For ease of use, show all to do lists first for a list, then enter the file name.");
+        System.out.println("\nAvailable To-Do Lists:");
+        File todoDir = new File(TODO_DIR);
+        if (todoDir.exists() && todoDir.isDirectory()) {
+            for (File file : todoDir.listFiles()) {
+                if (file.isFile()) {
+                    System.out.println(file.getName());
+                }
+            }
+        } else {
+            System.out.println("To-Do directory does not exist or is not a directory.");
+            return;
+        }
+        
+        System.out.print("\nEnter the name of the file to read: ");
         String readfileName = sc.nextLine();                                                // reading a list
                                                                                             // created on beta 2
         System.out.println("\nNow reading list " + readfileName + ":");
@@ -90,12 +102,12 @@ public class ToDoFileHandling {
 
     private static void mdifList(Scanner sc) {
         // List all to-do lists
-        System.out.println("Available To-Do Lists:");
+        System.out.println("\nAvailable To-Do Lists:");
         File todoDir = new File(TODO_DIR);
         if (todoDir.exists() && todoDir.isDirectory()) {
             for (File file : todoDir.listFiles()) {
                 if (file.isFile()) {
-                    System.out.println(file.getName());
+                    System.out.println("> " + file.getName());
                 }
             }
         } else {
@@ -103,7 +115,7 @@ public class ToDoFileHandling {
             return;
         }
     
-        System.out.print("Enter the name of the file to modify: ");
+        System.out.print("\nEnter the name of the file to modify: ");
         String mdifList = sc.nextLine().trim();
         // Append .txt if not already present
         if (!mdifList.toLowerCase().endsWith(".txt")) {
@@ -121,8 +133,8 @@ public class ToDoFileHandling {
             DateTimeFormatter timeFrmtr = DateTimeFormatter.ofPattern("dd MMM yyyy @ HH:mm:ss");
             String timestamp = timeNow.format(timeFrmtr);
             writer = new BufferedWriter(new FileWriter(fileToModify, true));
-            System.out.println("You are modifying the To-Do List. Enter '~' to quit: ");
-            writer.write("Updated at " + timestamp + "\n");
+            System.out.println("You are modifying the To-Do List. Enter '~' to quit.");
+            writer.write("\nUpdated at " + timestamp + "\n");
             while (true) {
                 String input = sc.nextLine();
                 if (input.equalsIgnoreCase("~")) {
@@ -168,9 +180,11 @@ public class ToDoFileHandling {
             todoDir.mkdir();
         }
         while (true) {
+            System.out.println("\n=== To-Do List Manager ===");
             System.out.println("\n1. Create a To-Do List \n2. Read a To-Do List \n3. View To-Do Lists \n4. Modify a To-Do List \n5. Delete a To-Do List \n6. Exit");
             System.out.print("\nOption: ");
             int opt = sc.nextInt();
+            System.out.println("\n=== === === === === === === ===");
             sc.nextLine();
     
             switch (opt) {
