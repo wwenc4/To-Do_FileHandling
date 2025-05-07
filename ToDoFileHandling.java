@@ -87,6 +87,81 @@ public class ToDoFileHandling {
             }
         }
     }
+
+    private static void mdifList(Scanner sc) {
+        // List all to-do lists
+        System.out.println("Available To-Do Lists:");
+        File todoDir = new File(TODO_DIR);
+        if (todoDir.exists() && todoDir.isDirectory()) {
+            for (File file : todoDir.listFiles()) {
+                if (file.isFile()) {
+                    System.out.println(file.getName());
+                }
+            }
+        } else {
+            System.out.println("To-Do directory does not exist or is not a directory.");
+            return;
+        }
+    
+        System.out.print("Enter the name of the file to modify: ");
+        String mdifList = sc.nextLine().trim();
+        // Append .txt if not already present
+        if (!mdifList.toLowerCase().endsWith(".txt")) {
+            mdifList += ".txt";
+        }
+        File fileToModify = new File(TODO_DIR + File.separator + mdifList);
+        if (!fileToModify.exists()) {
+            System.out.println("File '" + mdifList + "' does not exist.");
+            return;
+        }
+    
+        BufferedWriter writer = null;
+        try {
+            LocalDateTime timeNow = LocalDateTime.now();
+            DateTimeFormatter timeFrmtr = DateTimeFormatter.ofPattern("dd MMM yyyy @ HH:mm:ss");
+            String timestamp = timeNow.format(timeFrmtr);
+            writer = new BufferedWriter(new FileWriter(fileToModify, true));
+            System.out.println("You are modifying the To-Do List. Enter '~' to quit: ");
+            writer.write("Updated at " + timestamp + "\n");
+            while (true) {
+                String input = sc.nextLine();
+                if (input.equalsIgnoreCase("~")) {
+                    break;
+                }
+                writer.write("> " + input + "\n");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while modifying '" + mdifList + "': " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    System.out.println("Error closing the writer for '" + mdifList + "': " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        }
+    }   
+    private static void delList(String fileName){
+        System.out.print("Enter the name of file to delete.");
+        System.out.print("For ease of use, show all to do lists first for a list, then enter the file name.");
+        String delFileName = sc.nextLine();                                                // deleting a list
+
+        if (!fileName.toLowerCase().endsWith(delFileName)){
+            delFileName += ".txt";
+        }
+        File toDel = new File(TODO_DIR + File.separator + delFileName);
+        if (!toDel.exists()) {
+            System.out.println("...File does not exist.\n");
+        }
+        if (toDel.delete()) {
+            System.out.println("File '" + delFileName + "' deleted successfully.");
+        } else {
+            System.out.println("Failed to delete the file '" + delFileName + "'.");
+        }
+    }
     public static void main(String[] args) {
         File todoDir = new File(TODO_DIR);                                                  // this one creates a new directory if it doesn't exist.
         if (!todoDir.exists()) {                                                            // created on initial
@@ -112,11 +187,11 @@ public class ToDoFileHandling {
                     break;
                 
                 case 4:                                                                     // modifying a list
-                    //-- modifyList
+                    mdifList(sc);
                     break;
 
                 case 5:                                                                     // deleting a list
-                    //-- deleteList
+                    delList(TODO_DIR);
                     break;
 
                 case 6:                                                                     // exiting the program
